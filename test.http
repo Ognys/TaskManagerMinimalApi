@@ -1,0 +1,9 @@
+
+GET http://localhost:5082/tasks
+
+POST  http://localhost:5082/cities
+Content-Type: application/json
+
+{
+    "Name" : "Kislovodsk"
+}
