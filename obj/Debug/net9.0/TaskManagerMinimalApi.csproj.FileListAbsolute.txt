@@ -25,3 +25,4 @@
 /Users/ognys/VSCodeProjects/CSharp/TaskManagerMinimalApi/TaskManagerMinimalApi/obj/Debug/net9.0/TaskManagerMinimalApi.pdb
 /Users/ognys/VSCodeProjects/CSharp/TaskManagerMinimalApi/TaskManagerMinimalApi/obj/Debug/net9.0/TaskManagerMinimalApi.genruntimeconfig.cache
 /Users/ognys/VSCodeProjects/CSharp/TaskManagerMinimalApi/TaskManagerMinimalApi/obj/Debug/net9.0/ref/TaskManagerMinimalApi.dll
+/Users/ognys/VSCodeProjects/CSharp/TaskManagerMinimalApi/TaskManagerMinimalApi/obj/Debug/net9.0/TaskManagerMinimalApi.sourcelink.json
