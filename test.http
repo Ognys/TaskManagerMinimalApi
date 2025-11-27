@@ -1,17 +1,6 @@
 
-//GET http://localhost:5082/tasks
+GET http://localhost:5082/tasks
 
-PUT http://localhost:5082/tasks/1
-Content-Type: application/json
-{
-    "Title" : "Спать",
-    "Description" : "Спать весь день"
-}
 
-POST  http://localhost:5082/tasks
-Content-Type: application/json
 
-{
-    "Title" : "Полить цветы",
-    "Description" : "Полить цветы на кухне"
-}
+DELETE   http://localhost:5082/tasks/1

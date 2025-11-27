@@ -13,7 +13,7 @@ app.MapGet("/tasks/{id:int}", (int id) =>
 {
     for (int i = 0; i < listTask.Count; i++)
     {
-        if(id == listTask[i].id)
+        if(id == listTask[i].Id)
             return Results.Ok(listTask[i]);
     }
     return Results.NotFound();
@@ -23,20 +23,34 @@ app.MapGet("/tasks/{id:int}", (int id) =>
 app.MapPost("/tasks", (ModelTask modelTask) =>
 {
     listTask.Add(modelTask);
-    return Results.Created($"/tasks/{listTask[^1].id}", listTask[^1]);
+    return Results.Created($"/tasks/{listTask[^1].Id}", listTask[^1]);
 });
 
 app.MapPut("/tasks/{id:int}", (int id, ModelTask modelTask) =>
 {
     for (int i = 0; i < listTask.Count; i++)
     {
-        if(id == listTask[i].id)
+        if(id == listTask[i].Id)
         {
             listTask[i].Title = modelTask.Title;
             listTask[i].Description = modelTask.Description;
-            return Results.Ok(listTask[i].id);
+            return Results.Ok(listTask[i]);
         }
     }
+    return Results.NotFound();
+});
+
+app.MapDelete("/tasks/{id:int}", (int id) =>
+{
+    for (int i = 0; i < listTask.Count; i++)
+    {
+        if(id == listTask[i].Id)
+        {
+            listTask.RemoveAt(i);
+            return Results.NoContent();
+        }  
+    }
+
     return Results.NotFound();
 });
 
