@@ -2,56 +2,44 @@ using System.Collections.Immutable;
 using TaskManagerMinimalApi;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<ITaskRepository, InMemoryTaskRepository>();
+
 var app = builder.Build();
 
-List<ModelTask> listTask = new List<ModelTask> {new ModelTask("Сходить в колледж","Пойти завтра в колледж и закрыть долги"), 
-new ModelTask("Настроить режим сна", "лечь спать сегодня в 22:00 будильник поставить на 7:30")};
+app.MapGet("/tasks", (ITaskRepository repo) => repo.GetAll());
 
-app.MapGet("/tasks",() => listTask);
-
-app.MapGet("/tasks/{id:int}", (int id) =>
+app.MapGet("/tasks/{id:int}", (int id, ITaskRepository repo) =>
 {
-    for (int i = 0; i < listTask.Count; i++)
-    {
-        if(id == listTask[i].Id)
-            return Results.Ok(listTask[i]);
-    }
-    return Results.NotFound();
+    if (repo.GetById(id) is null)
+        return Results.NotFound();
+
+    return Results.Ok(repo.GetById(id));
 }
 );
 
-app.MapPost("/tasks", (ModelTask modelTask) =>
+app.MapPost("/tasks", (ModelTask modelTask, ITaskRepository repo) =>
 {
-    listTask.Add(modelTask);
-    return Results.Created($"/tasks/{listTask[^1].Id}", listTask[^1]);
+    repo.Add(modelTask);
+    return Results.Created($"/tasks/{repo.GetAll()[^1].Id}", repo.GetAll()[^1]);
 });
 
-app.MapPut("/tasks/{id:int}", (int id, ModelTask modelTask) =>
+app.MapPut("/tasks/{id:int}", (int id, ModelTask modelTask, ITaskRepository repo) =>
 {
-    for (int i = 0; i < listTask.Count; i++)
-    {
-        if(id == listTask[i].Id)
-        {
-            listTask[i].Title = modelTask.Title;
-            listTask[i].Description = modelTask.Description;
-            return Results.Ok(listTask[i]);
-        }
-    }
-    return Results.NotFound();
+    if (repo.GetById(id) is null)
+        return Results.NotFound();
+
+
+    repo.Update(modelTask, id);
+    return Results.Ok(repo.GetById(id));
 });
 
-app.MapDelete("/tasks/{id:int}", (int id) =>
+app.MapDelete("/tasks/{id:int}", (int id, ITaskRepository repo) =>
 {
-    for (int i = 0; i < listTask.Count; i++)
-    {
-        if(id == listTask[i].Id)
-        {
-            listTask.RemoveAt(i);
-            return Results.NoContent();
-        }  
-    }
-
-    return Results.NotFound();
+    if (repo.Delete(id))
+        return Results.NoContent();
+    else
+        return Results.NotFound();
 });
 
 app.Run();

@@ -1,6 +1,14 @@
 
-GET http://localhost:5082/tasks
+#GET http://localhost:5082/tasks
 
 
 
-DELETE   http://localhost:5082/tasks/1
+# POST  http://localhost:5082/tasks
+# Content-Type: application/json
+
+# {
+#     "Title" : "Сходить в магмзин",
+#     "Description" : "Купить по списку:..."
+# }
+
+#GET http://localhost:5082/tasks/2
